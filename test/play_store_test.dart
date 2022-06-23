@@ -100,8 +100,8 @@ void main() {
     expect(response, isInstanceOf<Document>());
 
     expect(PlayStoreResults.releaseNotes(response!),
-        'Minor updates and improvements.\nAgain.\nAgain.');
-    expect(PlayStoreResults.version(response), '2.0.2');
+        '* New fun emojis \n* Added ability for you to invite people and groups via email or social');
+    expect(PlayStoreResults.version(response), '1.3.1');
     expect(PlayStoreResults.description(response)?.length, greaterThan(10));
   }, skip: false);
 

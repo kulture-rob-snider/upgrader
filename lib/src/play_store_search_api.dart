@@ -114,16 +114,12 @@ class PlayStoreResults {
   /// release notes, the main app description is used.
   static String? releaseNotes(Document response) {
     try {
-      final sectionElements = response.getElementsByClassName('W4P4ne');
-      final releaseNotesElement = sectionElements.firstWhere(
-          (elm) => elm.querySelector('.wSaTQd')!.text == 'What\'s New',
-          orElse: () => sectionElements[0]);
-
-      Element? rawReleaseNotes = releaseNotesElement
-          .querySelector('.PHBdkd')
-          ?.querySelector('.DWPxHb');
-      String? innerHtml = rawReleaseNotes!.innerHtml.toString();
-      String? releaseNotes = multilineReleaseNotes(innerHtml, rawReleaseNotes);
+      final allSections = response.querySelectorAll('section');
+      final whatsNewSection = allSections.singleWhere((element) => element.querySelector('h2')?.text == "What's new");
+      final whatsNewDiv = whatsNewSection.querySelector('[itemprop="description"]');
+      final releaseNotes = whatsNewDiv?.nodes
+        .map((n) => n is Element && n.localName == 'br' ? '\n' : n.text)
+        .join('');
 
       return releaseNotes;
     } catch (e) {
